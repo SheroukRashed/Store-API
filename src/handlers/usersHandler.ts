@@ -16,7 +16,7 @@ const create = async (req: Request, res: Response) => {
     const user: User = {
       firstName: req.body.firstName,
       lastName: req.body.lastName,
-      passwordDigest: req.body.passwordDigest
+      password: req.body.password
     }
 
     const newUser = await UserModel.create(user)

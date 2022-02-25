@@ -1,11 +1,12 @@
 // @ts-ignore
+import bcrypt from 'bcrypt'
 import client from '../database'
 
 export type User = {
   id?: number
   firstName: string
   lastName: string
-  passwordDigest: string
+  password: string
 }
 
 export class UserModel {
@@ -48,7 +49,9 @@ export class UserModel {
       // @ts-ignore
       const conn = await client.connect()
 
-      const result = await conn.query(sql, [user.firstName, user.lastName, user.passwordDigest])
+      const passwordDigest = bcrypt.hashSync(`${user.password}your-secret-password`, 10)
+
+      const result = await conn.query(sql, [user.firstName, user.lastName, passwordDigest])
 
       const createdUser = result.rows[0]
 
