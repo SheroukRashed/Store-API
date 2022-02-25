@@ -38,7 +38,7 @@ const productRoutes = (app: express.Application) => {
   app.get('/api/products', index)
   app.get('/api/products/:id', show)
   app.get('/api/products/category/:id', showByCategory)
-  app.post('/api/products', jwtAuth,create)
+  app.post('/api/products', jwtAuth, create)
 }
 
 export default productRoutes

@@ -5,11 +5,21 @@
   "main": "server.js",
   "scripts": {
     "start": "nodemon src/server.ts",
+
+    "watch": "tsc-watch --esModuleInterop src/server.ts --outDir ./dist --onSuccess 'node ./dist/server.js'",
+    "test-db": "npm run test-teardown && export NODE_ENV=test|| set NODE_ENV=test&& npm run test-up && jasmine-ts src/tests/models/databaseSpec.ts && npm run test-teardown",
+    "test-routes": "npm run test-teardown && export NODE_ENV=test|| set NODE_ENV=test&& npm run test-up && jasmine-ts src/tests/serverSpec.ts && npm run test-teardown",
+    "test-teardown": "db-migrate reset --config ./database.json --e test",
+    "test-up": "db-migrate --config ./database.json --e test up",
+    "tsc": "tsc",
+
+    "dev-startdb": "db-migrate up --config ./database.json --e dev",
+    "dev-resetdb": "db-migrate reset --config ./database.json --e dev",
+    
     "lint": "eslint . --ext .ts",
     "prettier": "prettier --config .prettierrc 'src/*.ts' --write",
     "build": "npx tsc",
-    "jasmine": "jasmine",
-    "test": "npm run build && npm run jasmine"
+    "jasmine": "jasmine"
   },
   "repository": {
     "type": "git",
