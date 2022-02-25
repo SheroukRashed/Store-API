@@ -1,4 +1,5 @@
 import express, { Request, Response } from 'express'
+import jwtAuth from '../middlewares/jwt'
 import { Product, ProductModel } from '../models/product'
 
 const index = async (_req: Request, res: Response) => {
@@ -37,7 +38,7 @@ const productRoutes = (app: express.Application) => {
   app.get('/api/products', index)
   app.get('/api/products/:id', show)
   app.get('/api/products/category/:id', showByCategory)
-  app.post('/api/products', create)
+  app.post('/api/products', jwtAuth,create)
 }
 
 export default productRoutes
