@@ -2,10 +2,10 @@
 import client from '../database'
 
 export type Product = {
-  id: number
+  id?: number
   name: string
   price: number
-  category_id: number
+  categoryId: number
 }
 
 export class ProductModel {
@@ -47,7 +47,7 @@ export class ProductModel {
       // @ts-ignore
       const conn = await client.connect()
 
-      const result = await conn.query(sql, [product.name, product.price, product.category_id])
+      const result = await conn.query(sql, [product.name, product.price, product.categoryId])
 
       const createdProduct = result.rows[0]
 
