@@ -49,7 +49,10 @@ export class UserModel {
       // @ts-ignore
       const conn = await client.connect()
 
-      const passwordDigest = bcrypt.hashSync(`${user.password}your-secret-password`, 10)
+      const passwordDigest = bcrypt.hashSync(
+        `${user.password}${process.env.BCRYPT_PASSWORD}`,
+        parseInt(process.env.SALT_ROUND as string, 2)
+      )
 
       const result = await conn.query(sql, [user.firstName, user.lastName, passwordDigest])
 
@@ -61,5 +64,24 @@ export class UserModel {
     } catch (err) {
       throw new Error(`Could not add new user ${user.firstName} ${user.lastName} Error: ${err}`)
     }
+  }
+
+  static async authenticate(user: User): Promise<User | null> {
+    const conn = await client.connect()
+    const sql = 'SELECT password_digest FROM users WHERE first_name=($1)'
+
+    const result = await conn.query(sql, [user.firstName])
+
+    if (result.rows.length) {
+      const returnedUser = result.rows[0]
+
+      if (
+        bcrypt.compareSync(user.password + process.env.BCRYPT_PASSWORD, returnedUser.passwordDigest)
+      ) {
+        return returnedUser
+      }
+    }
+
+    return null
   }
 }

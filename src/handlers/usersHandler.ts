@@ -1,5 +1,7 @@
 import express, { Request, Response } from 'express'
+import jwt from 'jsonwebtoken'
 import { User, UserModel } from '../models/user'
+import jwtAuth from '../middlewares/jwt'
 
 const index = async (_req: Request, res: Response) => {
   const users = await UserModel.index()
@@ -20,17 +22,34 @@ const create = async (req: Request, res: Response) => {
     }
 
     const newUser = await UserModel.create(user)
-    res.json(newUser)
+    const token = jwt.sign({ user: newUser }, process.env.TOKEN_SECRET as string)
+    res.json(token)
   } catch (err) {
     res.status(400)
     res.json(err)
   }
 }
+const authenticate = async (req: Request, res: Response) => {
+  const user: User = {
+    firstName: req.body.firstName,
+    lastName: req.body.lastName,
+    password: req.body.password
+  }
+  try {
+    const u = await UserModel.authenticate(user)
+    const token = jwt.sign({ user: u }, process.env.TOKEN_SECRET as string)
+    res.json(token)
+  } catch (error) {
+    res.status(401)
+    res.json({ error })
+  }
+}
 
 const userRoutes = (app: express.Application) => {
-  app.get('/api/users', index)
-  app.get('/api/users/:id', show)
-  app.post('/api/users', create)
+  app.get('/api/users', jwtAuth, index)
+  app.get('/api/users/:id', jwtAuth, show)
+  app.post('/api/users', jwtAuth, create)
+  app.post('/api/users/authenticate', authenticate)
 }
 
 export default userRoutes

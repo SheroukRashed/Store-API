@@ -9,8 +9,8 @@ export default class DashboardQueries {
       // @ts-ignore
       const conn = await client.connect()
       const sql =
-        'SELECT * FROM products WHERE product_id IN' +
-        '(SELECT COUNT(product_id) FROM orders_products GROUP BY product_id ORDER BY product_id DES LIMIT ($1))'
+        'SELECT * FROM products WHERE id IN' +
+        '(SELECT product_id FROM orders_products GROUP BY product_id ORDER BY COUNT(product_id) DESC LIMIT ($1))'
 
       const result = await conn.query(sql, [limit])
 

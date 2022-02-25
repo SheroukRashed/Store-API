@@ -1,4 +1,5 @@
 import express, { Request, Response } from 'express'
+import jwtAuth from '../middlewares/jwt'
 import { OrderModel } from '../models/order'
 
 const showByUser = async (req: Request, res: Response) => {
@@ -12,8 +13,8 @@ const showByUserAndStatus = async (req: Request, res: Response) => {
 }
 
 const orderRoutes = (app: express.Application) => {
-  app.get('/api/orders/users/:id', showByUser)
-  app.get('/api/orders/users/:user_id/status/:status_id', showByUserAndStatus)
+  app.get('/api/orders/user/:id', jwtAuth, showByUser)
+  app.get('/api/orders/user/:user_id/status/:status_id', jwtAuth, showByUserAndStatus)
 }
 
 export default orderRoutes
