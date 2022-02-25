@@ -43,7 +43,7 @@ export class ProductModel {
 
   static async create(product: Product): Promise<Product> {
     try {
-      const sql = 'INSERT INTO books (name, price, category_id) VALUES($1, $2, $3) RETURNING *'
+      const sql = 'INSERT INTO products (name, price, category_id) VALUES($1, $2, $3) RETURNING *'
       // @ts-ignore
       const conn = await client.connect()
 

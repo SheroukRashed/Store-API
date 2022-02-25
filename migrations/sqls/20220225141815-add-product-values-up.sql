@@ -1,0 +1,10 @@
+INSERT INTO products(name,price,category_id) VALUES ('product_1',10,1);
+INSERT INTO products(name,price,category_id) VALUES ('product_2',8,1);
+INSERT INTO products(name,price,category_id) VALUES ('product_3',7,2);
+INSERT INTO products(name,price,category_id) VALUES ('product_4',12,2);
+INSERT INTO products(name,price,category_id) VALUES ('product_5',10,2);
+INSERT INTO products(name,price,category_id) VALUES ('product_6',6,3);
+INSERT INTO products(name,price,category_id) VALUES ('product_7',4,3);
+INSERT INTO products(name,price,category_id) VALUES ('product_8',5,4);
+INSERT INTO products(name,price,category_id) VALUES ('product_9',8,5);
+INSERT INTO products(name,price,category_id) VALUES ('product_10',12,5);

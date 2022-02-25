@@ -7,14 +7,14 @@ const index = async (_req: Request, res: Response) => {
 }
 
 const show = async (req: Request, res: Response) => {
-  const product = await ProductModel.show(req.body.id)
+  const product = await ProductModel.show(req.params.id)
   res.json(product)
 }
 
 const showByCategory = async (req: Request, res: Response) => {
-    const product = await ProductModel.showByCategory(req.body.id)
-    res.json(product)
-  }
+  const product = await ProductModel.showByCategory(req.params.id)
+  res.json(product)
+}
 
 const create = async (req: Request, res: Response) => {
   try {
@@ -25,6 +25,7 @@ const create = async (req: Request, res: Response) => {
     }
 
     const newProduct = await ProductModel.create(product)
+
     res.json(newProduct)
   } catch (err) {
     res.status(400)
@@ -33,10 +34,10 @@ const create = async (req: Request, res: Response) => {
 }
 
 const productRoutes = (app: express.Application) => {
-  app.get('/products', index)
-  app.get('/products/:id', show)
-  app.get('/products/category/:id', showByCategory)
-  app.post('/products', create)
+  app.get('/api/products', index)
+  app.get('/api/products/:id', show)
+  app.get('/api/products/category/:id', showByCategory)
+  app.post('/api/products', create)
 }
 
 export default productRoutes

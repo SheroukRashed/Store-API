@@ -7,7 +7,7 @@ const index = async (_req: Request, res: Response) => {
 }
 
 const show = async (req: Request, res: Response) => {
-  const user = await UserModel.show(req.body.id)
+  const user = await UserModel.show(req.params.id)
   res.json(user)
 }
 
@@ -28,9 +28,9 @@ const create = async (req: Request, res: Response) => {
 }
 
 const userRoutes = (app: express.Application) => {
-  app.get('/users', index)
-  app.get('/users/:id', show)
-  app.post('/users', create)
+  app.get('/api/users', index)
+  app.get('/api/users/:id', show)
+  app.post('/api/users', create)
 }
 
 export default userRoutes
