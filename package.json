@@ -1,31 +1,56 @@
 {
-  "name": "storefront_backend",
-  "version": "0.1.0",
-  "description": "",
-  "main": "server.ts",
+  "name": "store-api",
+  "version": "1.0.0",
+  "description": "This Project is required by Egfwd / Udacity scholarship .",
+  "main": "server.js",
   "scripts": {
-    "start": "node src/server.ts",
-    "watch": "tsc-watch --esModuleInterop src/server.ts --outDir ./dist --onSuccess 'node ./dist/server.js'",
-    "test": "jasmine-ts",
-    "tsc": "tsc"
+    "start": "nodemon src/server.ts",
+    "lint": "eslint . --ext .ts",
+    "prettier": "prettier --config .prettierrc 'src/*.ts' --write",
+    "build": "npx tsc",
+    "jasmine": "jasmine",
+    "test": "npm run build && npm run jasmine"
   },
-  "author": "Udacity",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SheroukRashed/Store-API.git"
+  },
+  "author": "",
   "license": "ISC",
-  "dependencies": {
-    "body-parser": "^1.19.0",
-    "dotenv": "^16.0.0",
-    "express": "^4.17.1",
-    "pg": "^8.5.1",
-    "typescript": "^4.1.3"
+  "bugs": {
+    "url": "https://github.com/SheroukRashed/Store-API/issues"
   },
+  "homepage": "https://github.com/SheroukRashed/Store-API#readme",
   "devDependencies": {
-    "@types/express": "^4.17.9",
-    "@types/jasmine": "^3.6.3",
-    "@types/pg": "^7.14.7",
-    "jasmine": "^3.6.4",
-    "jasmine-spec-reporter": "^6.0.0",
-    "jasmine-ts": "^0.3.0",
-    "ts-node": "^9.1.1",
-    "tsc-watch": "^4.2.9"
+    "@types/ejs": "^3.1.0",
+    "@types/express": "^4.17.13",
+    "@types/express-validator": "^3.0.0",
+    "@types/jasmine": "^3.10.3",
+    "@types/node": "^17.0.10",
+    "@types/sharp": "^0.29.5",
+    "@types/supertest": "^2.0.11",
+    "@typescript-eslint/eslint-plugin": "^5.10.0",
+    "@typescript-eslint/parser": "^5.10.0",
+    "eslint": "^8.7.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-import": "^2.25.4",
+    "eslint-plugin-prettier": "^4.0.0",
+    "jasmine": "^4.0.2",
+    "jasmine-spec-reporter": "^7.0.0",
+    "nodemon": "^2.0.15",
+    "prettier": "^2.5.1",
+    "supertest": "^6.2.2",
+    "ts-node": "^10.5.0",
+    "tsc-watch": "^4.6.0",
+    "typescript": "^4.5.5"
+  },
+  "dependencies": {
+    "dotenv": "^16.0.0",
+    "ejs": "^3.1.6",
+    "express": "^4.17.2",
+    "express-validator": "^6.14.0",
+    "pg": "^8.7.3",
+    "sharp": "^0.29.3"
   }
 }
