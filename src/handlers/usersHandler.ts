@@ -3,7 +3,7 @@ import jwt from 'jsonwebtoken'
 import { User, UserModel } from '../models/user'
 import jwtAuth from '../middlewares/jwt'
 
-const index = async (_req: Request, res: Response) : Promise<void> => {
+const index = async (_req: Request, res: Response): Promise<void> => {
   const users = await UserModel.index()
   res.json(users)
 }
@@ -13,7 +13,7 @@ const show = async (req: Request, res: Response) => {
   res.json(user)
 }
 
-const create = async (req: Request, res: Response) : Promise<void> => {
+const create = async (req: Request, res: Response): Promise<void> => {
   try {
     const user: User = {
       userName: req.params.userName,
@@ -30,7 +30,7 @@ const create = async (req: Request, res: Response) : Promise<void> => {
     res.json(err)
   }
 }
-const authenticate = async (req: Request, res: Response) : Promise<void> => {
+const authenticate = async (req: Request, res: Response): Promise<void> => {
   const user: User = {
     userName: req.params.userName,
     password: req.body.password
@@ -45,7 +45,7 @@ const authenticate = async (req: Request, res: Response) : Promise<void> => {
   }
 }
 
-const userRoutes = (app: express.Application) : void => {
+const userRoutes = (app: express.Application): void => {
   app.get('/api/users', jwtAuth, index)
   app.get('/api/users/:id', jwtAuth, show)
   app.post('/api/users', jwtAuth, create)

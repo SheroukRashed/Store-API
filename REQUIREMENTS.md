@@ -41,7 +41,7 @@ These are the notes from a meeting with the frontend developer that describe wha
 - status of order (active or complete)
 
 ## Postgres database tables
-- User(id:varchar, firstName:varchar, lastName:varchar, password_digest:varchar)
+- User(id:varchar, userName:varchar, firstName:varchar, lastName:varchar, password_digest:varchar)
 - Category(id:varchar, name:varchar)
 - Product(id:varchar, name:varchar, price:float, category_id:string[foreign key to categories table])
 - Status(id:varchar, name:varchar)

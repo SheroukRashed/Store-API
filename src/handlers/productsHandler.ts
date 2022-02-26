@@ -2,12 +2,12 @@ import express, { Request, Response } from 'express'
 import jwtAuth from '../middlewares/jwt'
 import { Product, ProductModel } from '../models/product'
 
-const index = async (_req: Request, res: Response) : Promise<void> => {
+const index = async (_req: Request, res: Response): Promise<void> => {
   const products = await ProductModel.index()
   res.json(products)
 }
 
-const show = async (req: Request, res: Response) : Promise<void> => {
+const show = async (req: Request, res: Response): Promise<void> => {
   const product = await ProductModel.show(req.params.id)
   res.json(product)
 }
@@ -17,7 +17,7 @@ const showByCategory = async (req: Request, res: Response) => {
   res.json(product)
 }
 
-const create = async (req: Request, res: Response) : Promise<void> => {
+const create = async (req: Request, res: Response): Promise<void> => {
   try {
     const product: Product = {
       name: req.body.name,
@@ -34,7 +34,7 @@ const create = async (req: Request, res: Response) : Promise<void> => {
   }
 }
 
-const productRoutes = (app: express.Application) : void => {
+const productRoutes = (app: express.Application): void => {
   app.get('/api/products', index)
   app.get('/api/products/:id', show)
   app.get('/api/products/category/:id', showByCategory)

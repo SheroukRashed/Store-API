@@ -55,7 +55,12 @@ export class UserModel {
         parseInt(process.env.SALT_ROUND as string, 2)
       )
 
-      const result = await conn.query(sql, [user.userName, user.firstName, user.lastName, passwordDigest])
+      const result = await conn.query(sql, [
+        user.userName,
+        user.firstName,
+        user.lastName,
+        passwordDigest
+      ])
 
       const createdUser = result.rows[0]
 
