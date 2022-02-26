@@ -2,9 +2,10 @@ import jasmine from 'jasmine';
 import supertest from 'supertest';
 import app from '../server';
 import { User, UserModel } from '../models/user';
-import { Product, ProductModel } from '../models/product';
+import { Product } from '../models/product';
 import { Order, OrderModel } from '../models/order';
 import { Category, CategoryModel } from '../models/category';
+import { Status, StatusModel } from '../models/status';
 import jwt_decode from 'jwt-decode';
 
 const request = supertest(app);
@@ -142,21 +143,9 @@ describe('Users Route tests', () => {
 
 describe('Products Route tests', () => {
   beforeAll(async () => {
-    let category_1 : Category = {
-      name: "category_1"
-    }
-    await CategoryModel.create(category_1);
-
-    let category_2 : Category = {
-      name: "category_2"
-    }
-    await CategoryModel.create(category_2);
-
-    let category_3 : Category = {
-      name: "category_3"
-    }
-    await CategoryModel.create(category_3);
-
+    await CategoryModel.create({name: "category_1"});
+    await CategoryModel.create({name: "category_2"});
+    await CategoryModel.create({name: "category_3"});
   });
 
   it('current user can create a product', async () => {
@@ -217,6 +206,41 @@ describe('Products Route tests', () => {
     expect(response.body[0].name).toEqual(product_3.name);
     expect(parseInt(response.body[0].price)).toEqual(product_3.price);
     expect(response.body[0].category_id).toEqual(product_3.categoryId);
+  });
+
+});
+
+describe('Orders Route tests', () => {
+  beforeAll(async () => {
+    
+    await OrderModel.create({userId:1,statusId:1})
+    await OrderModel.create({userId:2,statusId:1})
+    await OrderModel.create({userId:1,statusId:2})
+    await OrderModel.create({userId:2,statusId:2})
+  });
+
+  it('current user can show orders by user', async () => {
+    const response = await request.get('/api/orders/user/1').set({ ...jsonHeaders, Authorization: token });
+    expect(response.status).toBe(200);
+    expect(response.body[0].user_id).toEqual(1);
+    expect(response.body[1].user_id).toEqual(1);
+
+    const response_2 = await request.get('/api/orders/user/2').set({ ...jsonHeaders, Authorization: token });
+    expect(response_2.status).toBe(200);
+    expect(response_2.body[0].user_id).toEqual(createdUser.id);
+    expect(response_2.body[1].user_id).toEqual(createdUser.id);
+  });
+
+  it('current user can show completed orders by user', async () => {
+    const response = await request.get('/api/orders/user/1/status/2').set({ ...jsonHeaders, Authorization: token });
+    expect(response.status).toBe(200);
+    expect(response.body[0].user_id).toEqual(1);
+    expect(response.body[0].status_id).toEqual(2);
+
+    const response_2 = await request.get('/api/orders/user/2/status/2').set({ ...jsonHeaders, Authorization: token });
+    expect(response_2.status).toBe(200);
+    expect(response_2.body[0].user_id).toEqual(createdUser.id);
+    expect(response_2.body[0].status_id).toEqual(2);
   });
 
 });

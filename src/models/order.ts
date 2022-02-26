@@ -42,7 +42,7 @@ export class OrderModel {
 
   static async create(order: Order): Promise<Order> {
     try {
-      const sql = 'INSERT INTO books (user_id, status_id) VALUES($1, $2) RETURNING *'
+      const sql = 'INSERT INTO orders (user_id, status_id) VALUES($1, $2) RETURNING *'
       // @ts-ignore
       const conn = await client.connect()
 
