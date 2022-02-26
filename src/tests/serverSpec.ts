@@ -4,6 +4,7 @@ import app from '../server';
 import { User, UserModel } from '../models/user';
 import { Product, ProductModel } from '../models/product';
 import { Order, OrderModel } from '../models/order';
+import { Category, CategoryModel } from '../models/category';
 import jwt_decode from 'jwt-decode';
 
 const request = supertest(app);
@@ -32,6 +33,28 @@ const currentUser: User = {
   lastName: 'rashed',
   password: '12345678'
 };
+
+let product_1: Product = {
+  id: 1,
+  name: 'product_1',
+  price: 1,
+  categoryId: 1
+};
+
+let product_2: Product = {
+  id: 2,
+  name: 'product_2',
+  price: 1,
+  categoryId: 2
+};
+
+let product_3: Product = {
+  id: 3,
+  name: 'product_3',
+  price: 1,
+  categoryId: 3
+};
+
 
 describe('Access Denied tests', () => {
     it('user sould reveive 401 trying to create user with no token', async () => {
@@ -115,4 +138,85 @@ describe('Users Route tests', () => {
     expect(response.body[1].userName).toEqual(createdUser.userName);
     expect(response.body[1].password).toBeUndefined();
   });
+});
+
+describe('Products Route tests', () => {
+  beforeAll(async () => {
+    let category_1 : Category = {
+      name: "category_1"
+    }
+    await CategoryModel.create(category_1);
+
+    let category_2 : Category = {
+      name: "category_2"
+    }
+    await CategoryModel.create(category_2);
+
+    let category_3 : Category = {
+      name: "category_3"
+    }
+    await CategoryModel.create(category_3);
+
+  });
+
+  it('current user can create a product', async () => {
+    const response = await request.post('/api/products').set({ ...jsonHeaders, Authorization: token }).send(product_1);
+    expect(response.status).toBe(200);
+    expect(response.body.id).toEqual(product_1.id);
+    expect(response.body.name).toEqual(product_1.name);
+    expect(parseInt(response.body.price)).toEqual(product_1.price);
+    expect(response.body.category_id).toEqual(product_1.categoryId);
+
+    const response_2 = await request.post('/api/products').set({ ...jsonHeaders, Authorization: token }).send(product_2);
+    expect(response_2.status).toBe(200);
+    expect(response_2.body.id).toEqual(product_2.id);
+    expect(response_2.body.name).toEqual(product_2.name);
+    expect(parseInt(response_2.body.price)).toEqual(product_2.price);
+    expect(response_2.body.category_id).toEqual(product_2.categoryId);
+
+    const response_3 = await request.post('/api/products').set({ ...jsonHeaders, Authorization: token }).send(product_3);
+    expect(response_3.status).toBe(200);
+    expect(response_3.body.id).toEqual(product_3.id);
+    expect(response_3.body.name).toEqual(product_3.name);
+    expect(parseInt(response_3.body.price)).toEqual(product_3.price);
+    expect(response_3.body.category_id).toEqual(product_3.categoryId);
+  });
+
+  it('current user can show a product', async () => {
+    const response = await request.get('/api/products/1');
+    expect(response.status).toBe(200);
+    expect(response.body.id).toEqual(product_1.id);
+    expect(response.body.name).toEqual(product_1.name);
+    expect(parseInt(response.body.price)).toEqual(product_1.price);
+    expect(response.body.category_id).toEqual(product_1.categoryId);
+  });
+
+  it('current user can show all product', async () => {
+    const response = await request.get('/api/products');
+    expect(response.status).toBe(200);
+    expect(response.body[0].id).toEqual(product_1.id);
+    expect(response.body[0].name).toEqual(product_1.name);
+    expect(parseInt(response.body[0].price)).toEqual(product_1.price);
+    expect(response.body[0].category_id).toEqual(product_1.categoryId);
+
+    expect(response.body[1].id).toEqual(product_2.id);
+    expect(response.body[1].name).toEqual(product_2.name);
+    expect(parseInt(response.body[1].price)).toEqual(product_2.price);
+    expect(response.body[1].category_id).toEqual(product_2.categoryId);
+
+    expect(response.body[2].id).toEqual(product_3.id);
+    expect(response.body[2].name).toEqual(product_3.name);
+    expect(parseInt(response.body[2].price)).toEqual(product_3.price);
+    expect(response.body[2].category_id).toEqual(product_3.categoryId);
+  });
+
+  it('current user can show all product od specific category', async () => {
+    const response = await request.get('/api/products/category/3');
+    expect(response.status).toBe(200);
+    expect(response.body[0].id).toEqual(product_3.id);
+    expect(response.body[0].name).toEqual(product_3.name);
+    expect(parseInt(response.body[0].price)).toEqual(product_3.price);
+    expect(response.body[0].category_id).toEqual(product_3.categoryId);
+  });
+
 });
