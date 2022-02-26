@@ -1,7 +1,7 @@
 import express, { Request, Response } from 'express'
 import DashboardQueries from '../models/dashboard'
 
-const mostPopularProducts = async (_req: Request, res: Response) => {
+const mostPopularProducts = async (_req: Request, res: Response) : Promise<void> => {
   const products = await DashboardQueries.mostPopularProducts()
   res.json(products)
 }

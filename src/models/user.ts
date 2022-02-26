@@ -4,8 +4,9 @@ import client from '../database'
 
 export type User = {
   id?: number
-  firstName: string
-  lastName: string
+  userName: string
+  firstName?: string
+  lastName?: string
   password: string
 }
 
@@ -45,7 +46,7 @@ export class UserModel {
   static async create(user: User): Promise<User> {
     try {
       const sql =
-        'INSERT INTO users (first_name, last_name, password_digest) VALUES($1, $2, $3) RETURNING *'
+        'INSERT INTO users (user_name, first_name, last_name, password_digest) VALUES($1, $2, $3, $4) RETURNING *'
       // @ts-ignore
       const conn = await client.connect()
 
@@ -54,7 +55,7 @@ export class UserModel {
         parseInt(process.env.SALT_ROUND as string, 2)
       )
 
-      const result = await conn.query(sql, [user.firstName, user.lastName, passwordDigest])
+      const result = await conn.query(sql, [user.userName, user.firstName, user.lastName, passwordDigest])
 
       const createdUser = result.rows[0]
 
