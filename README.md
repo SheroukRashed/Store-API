@@ -51,3 +51,5 @@ check REQUIREMENTS.md
 run npm run start, the fetch the endpoints stated in the REQUIREMENTS.md on port 3000
 
 ### 5. Running The Test
+
+to run tests for routes run npm run test-routes
