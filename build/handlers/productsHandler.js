@@ -38,7 +38,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
-Object.defineProperty(exports, "__esModule", { value: true });
+exports.__esModule = true;
 var jwt_1 = __importDefault(require("../middlewares/jwt"));
 var product_1 = require("../models/product");
 var index = function (_req, res) { return __awaiter(void 0, void 0, void 0, function () {
@@ -106,7 +106,6 @@ var productRoutes = function (app) {
     app.get('/api/products', index);
     app.get('/api/products/:id', show);
     app.get('/api/products/category/:id', showByCategory);
-    app.post('/api/products', jwt_1.default, create);
+    app.post('/api/products', jwt_1["default"], create);
 };
-exports.default = productRoutes;
-//# sourceMappingURL=productsHandler.js.map
+exports["default"] = productRoutes;

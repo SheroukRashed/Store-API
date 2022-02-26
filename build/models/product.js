@@ -38,7 +38,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
-Object.defineProperty(exports, "__esModule", { value: true });
+exports.__esModule = true;
 exports.ProductModel = void 0;
 // @ts-ignore
 var database_1 = __importDefault(require("../database"));
@@ -53,7 +53,7 @@ var ProductModel = /** @class */ (function () {
                     case 0:
                         _a.trys.push([0, 3, , 4]);
                         sql = 'SELECT * FROM products';
-                        return [4 /*yield*/, database_1.default.connect()];
+                        return [4 /*yield*/, database_1["default"].connect()];
                     case 1:
                         conn = _a.sent();
                         return [4 /*yield*/, conn.query(sql)];
@@ -77,7 +77,7 @@ var ProductModel = /** @class */ (function () {
                     case 0:
                         _a.trys.push([0, 3, , 4]);
                         sql = 'SELECT * FROM products WHERE id=($1)';
-                        return [4 /*yield*/, database_1.default.connect()];
+                        return [4 /*yield*/, database_1["default"].connect()];
                     case 1:
                         conn = _a.sent();
                         return [4 /*yield*/, conn.query(sql, [id])];
@@ -101,7 +101,7 @@ var ProductModel = /** @class */ (function () {
                     case 0:
                         _a.trys.push([0, 3, , 4]);
                         sql = 'INSERT INTO products (name, price, category_id) VALUES($1, $2, $3) RETURNING *';
-                        return [4 /*yield*/, database_1.default.connect()];
+                        return [4 /*yield*/, database_1["default"].connect()];
                     case 1:
                         conn = _a.sent();
                         return [4 /*yield*/, conn.query(sql, [product.name, product.price, product.categoryId])];
@@ -126,7 +126,7 @@ var ProductModel = /** @class */ (function () {
                     case 0:
                         _a.trys.push([0, 3, , 4]);
                         sql = 'SELECT * FROM products WHERE category_id=($1)';
-                        return [4 /*yield*/, database_1.default.connect()];
+                        return [4 /*yield*/, database_1["default"].connect()];
                     case 1:
                         conn = _a.sent();
                         return [4 /*yield*/, conn.query(sql, [categoryId])];
@@ -145,4 +145,3 @@ var ProductModel = /** @class */ (function () {
     return ProductModel;
 }());
 exports.ProductModel = ProductModel;
-//# sourceMappingURL=product.js.map

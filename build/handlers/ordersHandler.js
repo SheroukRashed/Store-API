@@ -38,7 +38,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
-Object.defineProperty(exports, "__esModule", { value: true });
+exports.__esModule = true;
 var jwt_1 = __importDefault(require("../middlewares/jwt"));
 var order_1 = require("../models/order");
 var showByUser = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
@@ -66,8 +66,7 @@ var showByUserAndStatus = function (req, res) { return __awaiter(void 0, void 0,
     });
 }); };
 var orderRoutes = function (app) {
-    app.get('/api/orders/user/:id', jwt_1.default, showByUser);
-    app.get('/api/orders/user/:user_id/status/:status_id', jwt_1.default, showByUserAndStatus);
+    app.get('/api/orders/user/:id', jwt_1["default"], showByUser);
+    app.get('/api/orders/user/:user_id/status/:status_id', jwt_1["default"], showByUserAndStatus);
 };
-exports.default = orderRoutes;
-//# sourceMappingURL=ordersHandler.js.map
+exports["default"] = orderRoutes;

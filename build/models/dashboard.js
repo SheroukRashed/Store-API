@@ -38,7 +38,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
-Object.defineProperty(exports, "__esModule", { value: true });
+exports.__esModule = true;
 // @ts-ignore
 var database_1 = __importDefault(require("../database"));
 var DashboardQueries = /** @class */ (function () {
@@ -53,7 +53,7 @@ var DashboardQueries = /** @class */ (function () {
                 switch (_a.label) {
                     case 0:
                         _a.trys.push([0, 3, , 4]);
-                        return [4 /*yield*/, database_1.default.connect()];
+                        return [4 /*yield*/, database_1["default"].connect()];
                     case 1:
                         conn = _a.sent();
                         sql = 'SELECT * FROM products WHERE id IN' +
@@ -73,5 +73,4 @@ var DashboardQueries = /** @class */ (function () {
     };
     return DashboardQueries;
 }());
-exports.default = DashboardQueries;
-//# sourceMappingURL=dashboard.js.map
+exports["default"] = DashboardQueries;

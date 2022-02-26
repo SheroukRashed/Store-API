@@ -48,4 +48,6 @@ check REQUIREMENTS.md
 
 ### 4. Running The Project
 
-run npm run start, the fetch the endpoints stated in the REQUIREMENTS.md
+run npm run start, the fetch the endpoints stated in the REQUIREMENTS.md on port 3000
+
+### 5. Running The Test

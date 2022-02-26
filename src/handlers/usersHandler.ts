@@ -16,7 +16,7 @@ const show = async (req: Request, res: Response) => {
 const create = async (req: Request, res: Response): Promise<void> => {
   try {
     const user: User = {
-      userName: req.params.userName,
+      userName: req.body.userName,
       firstName: req.body.firstName,
       lastName: req.body.lastName,
       password: req.body.password
@@ -30,9 +30,9 @@ const create = async (req: Request, res: Response): Promise<void> => {
     res.json(err)
   }
 }
-const authenticate = async (req: Request, res: Response): Promise<void> => {
+const authenticate = async (req: Request, res: Response) => {
   const user: User = {
-    userName: req.params.userName,
+    userName: req.body.userName,
     password: req.body.password
   }
   try {

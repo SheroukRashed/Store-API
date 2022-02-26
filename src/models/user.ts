@@ -7,7 +7,7 @@ export type User = {
   userName: string
   firstName?: string
   lastName?: string
-  password: string
+  password?: string
 }
 
 export class UserModel {
@@ -66,25 +66,38 @@ export class UserModel {
 
       conn.release()
 
-      return createdUser
+      const createdUserModel: User = {
+        id: createdUser.id,
+        userName: createdUser.user_name,
+        firstName: createdUser.first_name,
+        lastName: createdUser.last_name,
+      }
+      return createdUserModel
     } catch (err) {
       throw new Error(`Could not add new user ${user.firstName} ${user.lastName} Error: ${err}`)
     }
   }
 
   static async authenticate(user: User): Promise<User | null> {
+    console.log(user)
+
     const conn = await client.connect()
-    const sql = 'SELECT password_digest FROM users WHERE first_name=($1)'
+    const sql = 'SELECT * FROM users WHERE user_name=($1)'
 
-    const result = await conn.query(sql, [user.firstName])
-
+    const result = await conn.query(sql, [user.userName])
     if (result.rows.length) {
       const returnedUser = result.rows[0]
 
       if (
-        bcrypt.compareSync(user.password + process.env.BCRYPT_PASSWORD, returnedUser.passwordDigest)
+        bcrypt.compareSync(user.password as string + process.env.BCRYPT_PASSWORD, returnedUser.password_digest)
       ) {
-        return returnedUser
+        const returnedUserModel: User = {
+          id: returnedUser.id,
+          userName: returnedUser.user_name,
+          firstName: returnedUser.first_name,
+          lastName: returnedUser.last_name,
+        }
+        return returnedUserModel
       }
     }
 

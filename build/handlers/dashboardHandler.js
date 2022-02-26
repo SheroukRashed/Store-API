@@ -38,13 +38,13 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
-Object.defineProperty(exports, "__esModule", { value: true });
+exports.__esModule = true;
 var dashboard_1 = __importDefault(require("../models/dashboard"));
 var mostPopularProducts = function (_req, res) { return __awaiter(void 0, void 0, void 0, function () {
     var products;
     return __generator(this, function (_a) {
         switch (_a.label) {
-            case 0: return [4 /*yield*/, dashboard_1.default.mostPopularProducts()];
+            case 0: return [4 /*yield*/, dashboard_1["default"].mostPopularProducts()];
             case 1:
                 products = _a.sent();
                 res.json(products);
@@ -55,5 +55,4 @@ var mostPopularProducts = function (_req, res) { return __awaiter(void 0, void 0
 var dashboardRoutes = function (app) {
     app.get('/api/products/five-most-popular', mostPopularProducts);
 };
-exports.default = dashboardRoutes;
-//# sourceMappingURL=dashboardHandler.js.map
+exports["default"] = dashboardRoutes;

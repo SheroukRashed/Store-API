@@ -38,7 +38,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
-Object.defineProperty(exports, "__esModule", { value: true });
+exports.__esModule = true;
 var jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 var user_1 = require("../models/user");
 var jwt_1 = __importDefault(require("../middlewares/jwt"));
@@ -73,6 +73,7 @@ var create = function (req, res) { return __awaiter(void 0, void 0, void 0, func
             case 0:
                 _a.trys.push([0, 2, , 3]);
                 user = {
+                    userName: req.params.userName,
                     firstName: req.body.firstName,
                     lastName: req.body.lastName,
                     password: req.body.password
@@ -80,7 +81,7 @@ var create = function (req, res) { return __awaiter(void 0, void 0, void 0, func
                 return [4 /*yield*/, user_1.UserModel.create(user)];
             case 1:
                 newUser = _a.sent();
-                token = jsonwebtoken_1.default.sign({ user: newUser }, process.env.TOKEN_SECRET);
+                token = jsonwebtoken_1["default"].sign({ user: newUser }, process.env.TOKEN_SECRET);
                 res.json(token);
                 return [3 /*break*/, 3];
             case 2:
@@ -98,8 +99,7 @@ var authenticate = function (req, res) { return __awaiter(void 0, void 0, void 0
         switch (_a.label) {
             case 0:
                 user = {
-                    firstName: req.body.firstName,
-                    lastName: req.body.lastName,
+                    userName: req.params.userName,
                     password: req.body.password
                 };
                 _a.label = 1;
@@ -108,7 +108,7 @@ var authenticate = function (req, res) { return __awaiter(void 0, void 0, void 0
                 return [4 /*yield*/, user_1.UserModel.authenticate(user)];
             case 2:
                 u = _a.sent();
-                token = jsonwebtoken_1.default.sign({ user: u }, process.env.TOKEN_SECRET);
+                token = jsonwebtoken_1["default"].sign({ user: u }, process.env.TOKEN_SECRET);
                 res.json(token);
                 return [3 /*break*/, 4];
             case 3:
@@ -121,10 +121,9 @@ var authenticate = function (req, res) { return __awaiter(void 0, void 0, void 0
     });
 }); };
 var userRoutes = function (app) {
-    app.get('/api/users', jwt_1.default, index);
-    app.get('/api/users/:id', jwt_1.default, show);
-    app.post('/api/users', jwt_1.default, create);
+    app.get('/api/users', jwt_1["default"], index);
+    app.get('/api/users/:id', jwt_1["default"], show);
+    app.post('/api/users', jwt_1["default"], create);
     app.post('/api/users/authenticate', authenticate);
 };
-exports.default = userRoutes;
-//# sourceMappingURL=usersHandler.js.map
+exports["default"] = userRoutes;

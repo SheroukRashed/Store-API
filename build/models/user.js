@@ -38,7 +38,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
-Object.defineProperty(exports, "__esModule", { value: true });
+exports.__esModule = true;
 exports.UserModel = void 0;
 // @ts-ignore
 var bcrypt_1 = __importDefault(require("bcrypt"));
@@ -54,7 +54,7 @@ var UserModel = /** @class */ (function () {
                     case 0:
                         _a.trys.push([0, 3, , 4]);
                         sql = 'SELECT * FROM users';
-                        return [4 /*yield*/, database_1.default.connect()];
+                        return [4 /*yield*/, database_1["default"].connect()];
                     case 1:
                         conn = _a.sent();
                         return [4 /*yield*/, conn.query(sql)];
@@ -78,7 +78,7 @@ var UserModel = /** @class */ (function () {
                     case 0:
                         _a.trys.push([0, 3, , 4]);
                         sql = 'SELECT * FROM users WHERE id=($1)';
-                        return [4 /*yield*/, database_1.default.connect()];
+                        return [4 /*yield*/, database_1["default"].connect()];
                     case 1:
                         conn = _a.sent();
                         return [4 /*yield*/, conn.query(sql, [id])];
@@ -101,12 +101,17 @@ var UserModel = /** @class */ (function () {
                 switch (_a.label) {
                     case 0:
                         _a.trys.push([0, 3, , 4]);
-                        sql = 'INSERT INTO users (first_name, last_name, password_digest) VALUES($1, $2, $3) RETURNING *';
-                        return [4 /*yield*/, database_1.default.connect()];
+                        sql = 'INSERT INTO users (user_name, first_name, last_name, password_digest) VALUES($1, $2, $3, $4) RETURNING *';
+                        return [4 /*yield*/, database_1["default"].connect()];
                     case 1:
                         conn = _a.sent();
-                        passwordDigest = bcrypt_1.default.hashSync("".concat(user.password).concat(process.env.BCRYPT_PASSWORD), parseInt(process.env.SALT_ROUND, 2));
-                        return [4 /*yield*/, conn.query(sql, [user.firstName, user.lastName, passwordDigest])];
+                        passwordDigest = bcrypt_1["default"].hashSync("".concat(user.password).concat(process.env.BCRYPT_PASSWORD), parseInt(process.env.SALT_ROUND, 2));
+                        return [4 /*yield*/, conn.query(sql, [
+                                user.userName,
+                                user.firstName,
+                                user.lastName,
+                                passwordDigest
+                            ])];
                     case 2:
                         result = _a.sent();
                         createdUser = result.rows[0];
@@ -125,7 +130,7 @@ var UserModel = /** @class */ (function () {
             var conn, sql, result, returnedUser;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, database_1.default.connect()];
+                    case 0: return [4 /*yield*/, database_1["default"].connect()];
                     case 1:
                         conn = _a.sent();
                         sql = 'SELECT password_digest FROM users WHERE first_name=($1)';
@@ -134,7 +139,7 @@ var UserModel = /** @class */ (function () {
                         result = _a.sent();
                         if (result.rows.length) {
                             returnedUser = result.rows[0];
-                            if (bcrypt_1.default.compareSync(user.password + process.env.BCRYPT_PASSWORD, returnedUser.passwordDigest)) {
+                            if (bcrypt_1["default"].compareSync(user.password + process.env.BCRYPT_PASSWORD, returnedUser.passwordDigest)) {
                                 return [2 /*return*/, returnedUser];
                             }
                         }
@@ -146,4 +151,3 @@ var UserModel = /** @class */ (function () {
     return UserModel;
 }());
 exports.UserModel = UserModel;
-//# sourceMappingURL=user.js.map
