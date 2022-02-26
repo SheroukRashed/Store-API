@@ -81,7 +81,6 @@ describe('Users Route tests', () => {
 
   it('current user can create a user', async () => {
     const response = await request.post('/api/users').set({ ...jsonHeaders, Authorization: token }).send(newUser);
-    console.log(token)
     expect(response.status).toBe(200);
     const decodedUser: User = (jwt_decode(response.body) as DecodedJWT).user;
     expect(decodedUser.firstName).toEqual(createdUser.firstName);
@@ -89,5 +88,31 @@ describe('Users Route tests', () => {
     expect(decodedUser.id).toEqual(createdUser.id);
     expect(decodedUser.userName).toEqual(createdUser.userName);
     expect(decodedUser.password).toBeUndefined();
+  });
+
+  it('current user can show a user', async () => {
+    const response = await request.get('/api/users/2').set({ ...jsonHeaders, Authorization: token });
+    expect(response.status).toBe(200);
+    expect(response.body.firstName).toEqual(createdUser.firstName);
+    expect(response.body.lastName).toEqual(createdUser.lastName);
+    expect(response.body.id).toEqual(createdUser.id);
+    expect(response.body.userName).toEqual(createdUser.userName);
+    expect(response.body.password).toBeUndefined();
+  });
+
+  it('current user can show all users', async () => {
+    const response = await request.get('/api/users').set({ ...jsonHeaders, Authorization: token });
+    expect(response.status).toBe(200);
+    expect(response.body[0].firstName).toEqual(currentUser.firstName);
+    expect(response.body[0].lastName).toEqual(currentUser.lastName);
+    expect(response.body[0].id).toEqual(1);
+    expect(response.body[0].userName).toEqual(currentUser.userName);
+    expect(response.body[0].password).toBeUndefined();
+
+    expect(response.body[1].firstName).toEqual(createdUser.firstName);
+    expect(response.body[1].lastName).toEqual(createdUser.lastName);
+    expect(response.body[1].id).toEqual(createdUser.id);
+    expect(response.body[1].userName).toEqual(createdUser.userName);
+    expect(response.body[1].password).toBeUndefined();
   });
 });

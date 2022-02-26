@@ -21,7 +21,20 @@ export class UserModel {
 
       conn.release()
 
-      return result.rows
+      const returnedUsers = result.rows
+      var  returnedUserModels = []
+
+      for(const user of returnedUsers) {
+
+        var userModel: User = {
+          id: user.id,
+          userName: user.user_name,
+          firstName: user.first_name,
+          lastName: user.last_name,
+        }
+        returnedUserModels.push(userModel)
+      }
+      return returnedUserModels
     } catch (err) {
       throw new Error(`Could not get users. Error: ${err}`)
     }
@@ -35,9 +48,18 @@ export class UserModel {
 
       const result = await conn.query(sql, [id])
 
+      const returnedUser = result.rows[0];
+
       conn.release()
 
-      return result.rows[0]
+      const returnedUserModel: User = {
+        id: returnedUser.id,
+        userName: returnedUser.user_name,
+        firstName: returnedUser.first_name,
+        lastName: returnedUser.last_name,
+      }
+      return returnedUserModel
+
     } catch (err) {
       throw new Error(`Could not find user ${id}. Error: ${err}`)
     }
@@ -79,8 +101,6 @@ export class UserModel {
   }
 
   static async authenticate(user: User): Promise<User | null> {
-    console.log(user)
-
     const conn = await client.connect()
     const sql = 'SELECT * FROM users WHERE user_name=($1)'
 
