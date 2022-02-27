@@ -1,11 +1,11 @@
-import jasmine from 'jasmine'
 import supertest from 'supertest'
 import jwtDecode from 'jwt-decode'
 import app from '../server'
 import { User, UserModel } from '../models/user'
-import { Product } from '../models/product'
+import { Product, ProductModel } from '../models/product'
 import { OrderModel } from '../models/order'
 import { CategoryModel } from '../models/category'
+import { OrderProductModel } from '../models/orderProduct'
 
 const request = supertest(app)
 
@@ -103,7 +103,7 @@ describe('Users Route tests', () => {
     expect(decodedUser.password).toBeUndefined()
   })
 
-  it('current user can create a user', async () => {
+  it('user can create a new user (Signup)', async () => {
     const response = await request
       .post('/api/users')
       .set({ ...jsonHeaders, Authorization: token })
@@ -117,7 +117,7 @@ describe('Users Route tests', () => {
     expect(decodedUser.password).toBeUndefined()
   })
 
-  it('current user can show a user', async () => {
+  it('user can show a user', async () => {
     const response = await request.get('/api/users/2').set({ ...jsonHeaders, Authorization: token })
     expect(response.status).toBe(200)
     expect(response.body.firstName).toEqual(createdUser.firstName)
@@ -127,7 +127,7 @@ describe('Users Route tests', () => {
     expect(response.body.password).toBeUndefined()
   })
 
-  it('current user can show all users', async () => {
+  it('user can show all users', async () => {
     const response = await request.get('/api/users').set({ ...jsonHeaders, Authorization: token })
     expect(response.status).toBe(200)
     expect(response.body[0].firstName).toEqual(currentUser.firstName)
@@ -151,7 +151,7 @@ describe('Products Route tests', () => {
     await CategoryModel.create({ name: 'category_3' })
   })
 
-  it('current user can create a product', async () => {
+  it('user can create a product', async () => {
     const response = await request
       .post('/api/products')
       .set({ ...jsonHeaders, Authorization: token })
@@ -183,7 +183,7 @@ describe('Products Route tests', () => {
     expect(response3.body.category_id).toEqual(product3.categoryId)
   })
 
-  it('current user can show a product', async () => {
+  it('user can show a product', async () => {
     const response = await request.get('/api/products/1')
     expect(response.status).toBe(200)
     expect(response.body.id).toEqual(product1.id)
@@ -192,7 +192,7 @@ describe('Products Route tests', () => {
     expect(response.body.category_id).toEqual(product1.categoryId)
   })
 
-  it('current user can show all product', async () => {
+  it('user can show all product', async () => {
     const response = await request.get('/api/products')
     expect(response.status).toBe(200)
     expect(response.body[0].id).toEqual(product1.id)
@@ -211,7 +211,7 @@ describe('Products Route tests', () => {
     expect(response.body[2].category_id).toEqual(product3.categoryId)
   })
 
-  it('current user can show all product od specific category', async () => {
+  it('user can show all product od specific category', async () => {
     const response = await request.get('/api/products/category/3')
     expect(response.status).toBe(200)
     expect(response.body[0].id).toEqual(product3.id)
@@ -229,7 +229,7 @@ describe('Orders Route tests', () => {
     await OrderModel.create({ userId: 2, statusId: 2 })
   })
 
-  it('current user can show orders by user', async () => {
+  it('user can show orders by user', async () => {
     const response = await request
       .get('/api/orders/user/1')
       .set({ ...jsonHeaders, Authorization: token })
@@ -245,7 +245,7 @@ describe('Orders Route tests', () => {
     expect(response2.body[1].user_id).toEqual(createdUser.id)
   })
 
-  it('current user can show completed orders by user', async () => {
+  it('user can show completed orders by user', async () => {
     const response = await request
       .get('/api/orders/user/1/status/2')
       .set({ ...jsonHeaders, Authorization: token })
@@ -259,5 +259,53 @@ describe('Orders Route tests', () => {
     expect(response2.status).toBe(200)
     expect(response2.body[0].user_id).toEqual(createdUser.id)
     expect(response2.body[0].status_id).toEqual(2)
+  })
+})
+
+describe('Dashboard Route tests', () => {
+  beforeAll(async () => {
+    await ProductModel.create({ id: 4, name: 'product4', price: 4, categoryId: 1 })
+    await ProductModel.create({ id: 5, name: 'product5', price: 5, categoryId: 2 })
+    await ProductModel.create({ id: 6, name: 'product6', price: 6, categoryId: 3 })
+
+    await OrderModel.create({ userId: 1, statusId: 1 })
+    await OrderModel.create({ userId: 2, statusId: 1 })
+
+    await OrderProductModel.create({ productId: 1, orderId: 1, quantity: 1 })
+    // /// ////////////////////////////////////////////////////////////////////
+    await OrderProductModel.create({ productId: 2, orderId: 1, quantity: 1 })
+    await OrderProductModel.create({ productId: 2, orderId: 2, quantity: 1 })
+    // /// ////////////////////////////////////////////////////////////////////
+    await OrderProductModel.create({ productId: 3, orderId: 1, quantity: 1 })
+    await OrderProductModel.create({ productId: 3, orderId: 2, quantity: 1 })
+    await OrderProductModel.create({ productId: 3, orderId: 3, quantity: 1 })
+    // /// ////////////////////////////////////////////////////////////////////
+    await OrderProductModel.create({ productId: 4, orderId: 1, quantity: 1 })
+    await OrderProductModel.create({ productId: 4, orderId: 2, quantity: 1 })
+    await OrderProductModel.create({ productId: 4, orderId: 3, quantity: 1 })
+    await OrderProductModel.create({ productId: 4, orderId: 4, quantity: 1 })
+    // /// ////////////////////////////////////////////////////////////////////
+    await OrderProductModel.create({ productId: 5, orderId: 1, quantity: 1 })
+    await OrderProductModel.create({ productId: 5, orderId: 2, quantity: 1 })
+    await OrderProductModel.create({ productId: 5, orderId: 3, quantity: 1 })
+    await OrderProductModel.create({ productId: 5, orderId: 4, quantity: 1 })
+    await OrderProductModel.create({ productId: 5, orderId: 5, quantity: 1 })
+    // /// ////////////////////////////////////////////////////////////////////
+    await OrderProductModel.create({ productId: 6, orderId: 1, quantity: 1 })
+    await OrderProductModel.create({ productId: 6, orderId: 2, quantity: 1 })
+    await OrderProductModel.create({ productId: 6, orderId: 3, quantity: 1 })
+    await OrderProductModel.create({ productId: 6, orderId: 4, quantity: 1 })
+    await OrderProductModel.create({ productId: 6, orderId: 5, quantity: 1 })
+    await OrderProductModel.create({ productId: 6, orderId: 6, quantity: 1 })
+  })
+
+  it('user can show 5 most popular products', async () => {
+    const response = await request.get('/api/products/five-most-popular')
+    expect(response.status).toBe(200)
+    expect(response.body[0].id).toEqual(2)
+    expect(response.body[1].id).toEqual(3)
+    expect(response.body[2].id).toEqual(4)
+    expect(response.body[3].id).toEqual(5)
+    expect(response.body[4].id).toEqual(6)
   })
 })

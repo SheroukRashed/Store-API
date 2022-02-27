@@ -53,3 +53,8 @@ run npm run start, the fetch the endpoints stated in the REQUIREMENTS.md on port
 ### 5. Running The Test
 
 to run tests for routes run npm run test-routes
+
+### 6. Port information
+
+Database port is 5432. 
+Endpoints port is 3000. 

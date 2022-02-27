@@ -2,8 +2,12 @@ import express, { Request, Response } from 'express'
 import DashboardQueries from '../models/dashboard'
 
 const mostPopularProducts = async (_req: Request, res: Response): Promise<void> => {
-  const products = await DashboardQueries.mostPopularProducts()
-  res.json(products)
+  try {
+    const products = await DashboardQueries.mostPopularProducts()
+    res.json(products)
+  } catch (err) {
+    throw new Error(`unable get most popular products : ${err}`)
+  }
 }
 
 const dashboardRoutes = (app: express.Application) => {

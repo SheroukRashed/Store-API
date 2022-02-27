@@ -3,18 +3,30 @@ import jwtAuth from '../middlewares/jwt'
 import { Product, ProductModel } from '../models/product'
 
 const index = async (_req: Request, res: Response): Promise<void> => {
-  const products = await ProductModel.index()
-  res.json(products)
+  try {
+    const products = await ProductModel.index()
+    res.json(products)
+  } catch (err) {
+    throw new Error(`Could not get products. Error: ${err}`)
+  }
 }
 
 const show = async (req: Request, res: Response): Promise<void> => {
-  const product = await ProductModel.show(req.params.id)
-  res.json(product)
+  try {
+    const product = await ProductModel.show(req.params.id)
+    res.json(product)
+  } catch (err) {
+    throw new Error(`Could not find product ${req.params.id}. Error: ${err}`)
+  }
 }
 
 const showByCategory = async (req: Request, res: Response) => {
-  const product = await ProductModel.showByCategory(req.params.id)
-  res.json(product)
+  try {
+    const product = await ProductModel.showByCategory(req.params.id)
+    res.json(product)
+  } catch (err) {
+    throw new Error(`Could not find any products in category ${req.params.id}. Error: ${err}`)
+  }
 }
 
 const create = async (req: Request, res: Response): Promise<void> => {

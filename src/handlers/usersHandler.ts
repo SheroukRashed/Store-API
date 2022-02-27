@@ -4,13 +4,21 @@ import { User, UserModel } from '../models/user'
 import jwtAuth from '../middlewares/jwt'
 
 const index = async (_req: Request, res: Response): Promise<void> => {
-  const users = await UserModel.index()
-  res.json(users)
+  try {
+    const users = await UserModel.index()
+    res.json(users)
+  } catch (err) {
+    throw new Error(`Could not get users. Error: ${err}`)
+  }
 }
 
 const show = async (req: Request, res: Response) => {
-  const user = await UserModel.show(req.params.id)
-  res.json(user)
+  try {
+    const user = await UserModel.show(req.params.id)
+    res.json(user)
+  } catch (err) {
+    throw new Error(`Could not find user ${req.params.id}. Error: ${err}`)
+  }
 }
 
 const create = async (req: Request, res: Response): Promise<void> => {

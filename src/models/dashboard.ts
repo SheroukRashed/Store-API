@@ -10,12 +10,11 @@ export default class DashboardQueries {
       const conn = await client.connect()
       const sql =
         'SELECT * FROM products WHERE id IN' +
-        '(SELECT product_id FROM orders_products GROUP BY product_id ORDER BY COUNT(product_id) DESC LIMIT ($1))'
+        '(SELECT product_id FROM orders_products GROUP BY product_id ORDER BY COUNT(product_id) DESC LIMIT $1)'
 
       const result = await conn.query(sql, [limit])
 
       conn.release()
-
       return result.rows
     } catch (err) {
       throw new Error(`unable get most popular products : ${err}`)
