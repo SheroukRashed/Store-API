@@ -2,7 +2,6 @@ import express from 'express'
 import jwt from 'jsonwebtoken'
 
 const jwtAuth = (req: express.Request, res: express.Response, next: Function): void => {
-  console.log(`url ${req.url} was visited for jwt Auth`)
   try {
     const authorizationHeader = req.headers.authorization as string
     const token = authorizationHeader.split(' ')[1]
