@@ -6,7 +6,6 @@ export type Status = {
 }
 
 export class StatusModel {
-
   static async create(status: Status): Promise<Status> {
     try {
       const sql = 'INSERT INTO statuses (name) VALUES($1) RETURNING *'

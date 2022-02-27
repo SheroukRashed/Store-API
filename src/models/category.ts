@@ -6,7 +6,6 @@ export type Category = {
 }
 
 export class CategoryModel {
-
   static async create(category: Category): Promise<Category> {
     try {
       const sql = 'INSERT INTO categories (name) VALUES($1) RETURNING *'

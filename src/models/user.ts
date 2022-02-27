@@ -22,18 +22,17 @@ export class UserModel {
       conn.release()
 
       const returnedUsers = result.rows
-      var  returnedUserModels = []
+      const returnedUserModels: User[] = []
 
-      for(const user of returnedUsers) {
-
-        var userModel: User = {
+      returnedUsers.forEach((user) => {
+        const userModel: User = {
           id: user.id,
           userName: user.user_name,
           firstName: user.first_name,
-          lastName: user.last_name,
+          lastName: user.last_name
         }
         returnedUserModels.push(userModel)
-      }
+      })
       return returnedUserModels
     } catch (err) {
       throw new Error(`Could not get users. Error: ${err}`)
@@ -48,7 +47,7 @@ export class UserModel {
 
       const result = await conn.query(sql, [id])
 
-      const returnedUser = result.rows[0];
+      const returnedUser = result.rows[0]
 
       conn.release()
 
@@ -56,10 +55,9 @@ export class UserModel {
         id: returnedUser.id,
         userName: returnedUser.user_name,
         firstName: returnedUser.first_name,
-        lastName: returnedUser.last_name,
+        lastName: returnedUser.last_name
       }
       return returnedUserModel
-
     } catch (err) {
       throw new Error(`Could not find user ${id}. Error: ${err}`)
     }
@@ -92,7 +90,7 @@ export class UserModel {
         id: createdUser.id,
         userName: createdUser.user_name,
         firstName: createdUser.first_name,
-        lastName: createdUser.last_name,
+        lastName: createdUser.last_name
       }
       return createdUserModel
     } catch (err) {
@@ -109,13 +107,16 @@ export class UserModel {
       const returnedUser = result.rows[0]
 
       if (
-        bcrypt.compareSync(user.password as string + process.env.BCRYPT_PASSWORD, returnedUser.password_digest)
+        bcrypt.compareSync(
+          (user.password as string) + process.env.BCRYPT_PASSWORD,
+          returnedUser.password_digest
+        )
       ) {
         const returnedUserModel: User = {
           id: returnedUser.id,
           userName: returnedUser.user_name,
           firstName: returnedUser.first_name,
-          lastName: returnedUser.last_name,
+          lastName: returnedUser.last_name
         }
         return returnedUserModel
       }
