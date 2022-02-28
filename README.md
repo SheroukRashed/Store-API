@@ -5,6 +5,9 @@ To get started, clone this repo and run yarn or npm i in your terminal at the pr
 
 ## Steps to Run The project
 
+### 1.  Download The dependencies 
+Run yarn or npm i in your terminal at the project root.
+
 ### 2.  Env File
 Create a .env file in the project root and add the following environment variables
 
@@ -28,31 +31,23 @@ ENV=
 
 To Manipulate dev database set ENV=dev in .env file run the following command by order
 
-npm run dev-startdb
-node addInitialUsers.mjs
-node addInitialProducts.mjs
-node addInitialOrders.mjs
-node addInitialOrdersProducts.mjs
-
-To Manipulate test database set ENV=test in .env file run the following command by order
-
-npm run test-up 
-node addInitialUsers.mjs
-node addInitialProducts.mjs
-node addInitialOrders.mjs
-node addInitialOrdersProducts.mjs
+- npm run dev-startdb
+- node addInitialUsers.mjs
+- node addInitialProducts.mjs
+- node addInitialOrders.mjs
+- node addInitialOrdersProducts.mjs
 
 ### 3. Models and API endpoints
 
-check REQUIREMENTS.md
+Check REQUIREMENTS.md
 
 ### 4. Running The Project
 
-run npm run start, the fetch the endpoints stated in the REQUIREMENTS.md on port 3000
+Run npm run start, then fetch the endpoints stated in the REQUIREMENTS.md on port 3000
 
 ### 5. Running The Test
 
-to run tests for routes run npm run test-routes
+To run tests for routes run npm run test-routes
 
 ### 6. Port information
 
