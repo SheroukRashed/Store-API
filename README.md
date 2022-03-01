@@ -37,6 +37,9 @@ To Manipulate dev database set ENV=dev in .env file run the following command by
 To Fill the database tables with initial values run the following command
 - npm run dev-setupdb
 
+To Reset the database run the following command
+- npm run dev-resetdb
+
 ### 3. Models and API endpoints
 
 Check REQUIREMENTS.md
