@@ -11,31 +11,31 @@ Run yarn or npm i in your terminal at the project root.
 ### 2.  Env File
 Create a .env file in the project root and add the following environment variables
 
-POSTGRES_HOST=
-POSTGRES_DB=
-POSTGRES_USER=
-POSTGRES_PASSWORD=
+- POSTGRES_HOST=
+- POSTGRES_DB=
+- POSTGRES_USER=
+- POSTGRES_PASSWORD=
 
-POSTGRES_HOST_TEST=
-POSTGRES_DB_TEST=
-POSTGRES_USER_TEST=
-POSTGRES_PASSWORD_TEST=
+- POSTGRES_HOST_TEST=
+- POSTGRES_DB_TEST=
+- POSTGRES_USER_TEST=
+- POSTGRES_PASSWORD_TEST=
 
-BCRYPT_PASSWORD=
-SALT_ROUND=
-TOKEN_SECRET=
+- BCRYPT_PASSWORD=
+- SALT_ROUND=
+- TOKEN_SECRET=
 
-ENV=
+- ENV=
 
 ### 2.  DB Creation and Migrations
+This Project Uses docker to run an image of posgres database .. so first you need to run this image using
+- docker-compose up
 
 To Manipulate dev database set ENV=dev in .env file run the following command by order
-
 - npm run dev-startdb
-- node addInitialUsers.mjs
-- node addInitialProducts.mjs
-- node addInitialOrders.mjs
-- node addInitialOrdersProducts.mjs
+
+To Fill the database tables with initial values run the following command
+- npm run dev-setupdb
 
 ### 3. Models and API endpoints
 
