@@ -12,6 +12,7 @@
     "test-up": "db-migrate --config ./database.json --e test up",
     "tsc": "tsc",
     "dev-startdb": "db-migrate up --config ./database.json --e dev",
+    "dev-setupdb": "node addInitialUsers.mjs node addInitialProducts.mjs node addInitialOrders.mjs node addInitialOrdersProducts.mjs",
     "dev-resetdb": "db-migrate reset --config ./database.json --e dev",
     "lint": "eslint . --ext .ts",
     "prettier": "prettier --config .prettierrc 'src/*.ts' --write",
